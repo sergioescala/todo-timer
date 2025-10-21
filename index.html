@@ -7,27 +7,46 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="timer-container">
-        <div class="header">
-            <div class="title">TIMER</div>
+    <div class="container">
+        <div class="timer-wrapper">
+            <div class="timer-container">
+                <div class="header">
+                    <div class="title">TIMER</div>
+                </div>
+                <div class="timer-settings">
+                    <input type="number" id="time-input" value="25" min="1">
+                    <span>minutes</span>
+                </div>
+                <div class="timer">
+                    <div class="timer-display">25:00</div>
+                </div>
+                <div class="timer-controls">
+                    <button class="play-pause-btn">
+                        <svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        <svg class="pause-icon" viewBox="0 0 24 24" style="display: none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                    </button>
+                </div>
+                <div class="bottom-controls">
+                    <button class="reset-btn">
+                        <svg viewBox="0 0 24 24" width="24" height="24"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+                    </button>
+                </div>
+            </div>
         </div>
-        <div class="timer-settings">
-            <input type="number" id="time-input" value="45" min="1">
-            <span>minutes</span>
-        </div>
-        <div class="timer">
-            <div class="timer-display">45:00</div>
-        </div>
-        <div class="timer-controls">
-            <button class="play-pause-btn">
-                <svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                <svg class="pause-icon" viewBox="0 0 24 24" style="display: none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-            </button>
-        </div>
-        <div class="bottom-controls">
-            <button class="reset-btn">
-                <svg viewBox="0 0 24 24" width="24" height="24"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
-            </button>
+        <div class="task-wrapper">
+            <div class="task-container">
+                <h2>My Tasks</h2>
+                <div class="add-task-container">
+                    <input type="text" id="task-input" placeholder="Add a new task...">
+                    <button id="add-task-btn">Add</button>
+                </div>
+                <ul id="task-list"></ul>
+            </div>
+            <div class="stats-container">
+                <h2>Statistics</h2>
+                <p>Timers Completed: <span id="timers-completed">0</span></p>
+                <p>Tasks Completed: <span id="tasks-completed">0</span></p>
+            </div>
         </div>
     </div>
     <script src="script.js"></script>
