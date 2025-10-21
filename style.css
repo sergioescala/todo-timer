@@ -115,7 +115,7 @@ body {
     margin-bottom: 20px;
 }
 
-.play-pause-btn {
+.play-pause-btn, .reset-btn {
     width: 60px;
     height: 60px;
     border-radius: 50%;
@@ -128,13 +128,9 @@ body {
     align-items: center;
 }
 
-.play-icon, .pause-icon {
+.play-icon, .pause-icon, .reset-btn svg {
     width: 24px;
     height: 24px;
-    fill: var(--text-color);
-}
-
-.bottom-controls button svg {
     fill: var(--text-color);
 }
 
@@ -156,7 +152,7 @@ body {
 #add-task-btn {
     padding: 10px 20px;
     border: none;
-    background-color: var(--primary-color);
+    background-color: #28a745; /* Green color */
     color: white;
     border-radius: 5px;
     cursor: pointer;
@@ -213,8 +209,8 @@ body {
 .theme-switcher {
     position: relative;
     display: inline-block;
-    width: 50px;
-    height: 28px;
+    width: 60px; /* Increased size */
+    height: 34px;
 }
 
 .theme-switcher input {
@@ -232,27 +228,57 @@ body {
     bottom: 0;
     background-color: #ccc;
     transition: .4s;
-    border-radius: 28px;
+    border-radius: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2px;
 }
 
 .theme-switcher label:before {
     position: absolute;
     content: "";
-    height: 20px;
-    width: 20px;
+    height: 26px;
+    width: 26px;
     left: 4px;
     bottom: 4px;
     background-color: white;
     transition: .4s;
     border-radius: 50%;
+    z-index: 1;
+}
+
+.sun-icon, .moon-icon {
+    width: 20px;
+    height: 20px;
+    z-index: 0;
+    transition: opacity 0.4s;
+}
+
+.sun-icon {
+    fill: #f39c12;
+    margin-left: 4px;
+}
+
+.moon-icon {
+    fill: #f1c40f;
+    margin-right: 4px;
 }
 
 input:checked + label {
-    background-color: var(--primary-color);
+    background-color: #2c3e50;
+}
+
+input:checked + label .sun-icon {
+    opacity: 0;
+}
+
+input:not(:checked) + label .moon-icon {
+    opacity: 0;
 }
 
 input:checked + label:before {
-    transform: translateX(22px);
+    transform: translateX(26px);
 }
 
 /* Responsive Layout */
