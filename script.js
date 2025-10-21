@@ -16,6 +16,9 @@ const taskList = document.getElementById('task-list');
 const timersCompletedSpan = document.getElementById('timers-completed');
 const tasksCompletedSpan = document.getElementById('tasks-completed');
 
+// Theme Elements
+const themeToggle = document.getElementById('theme-toggle');
+
 // Timer Variables
 let totalTime = timeInput.value * 60;
 let timeLeft = totalTime;
@@ -25,6 +28,7 @@ let timerInterval;
 let tasks = [];
 let timersCompleted = 0;
 let tasksCompleted = 0;
+let isDarkMode = false;
 
 // --- Persistence Functions ---
 
@@ -32,6 +36,7 @@ function saveData() {
     localStorage.setItem('tasks', JSON.stringify(tasks));
     localStorage.setItem('timersCompleted', timersCompleted);
     localStorage.setItem('tasksCompleted', tasksCompleted);
+    localStorage.setItem('isDarkMode', isDarkMode);
 }
 
 function loadData() {
@@ -41,6 +46,25 @@ function loadData() {
     }
     timersCompleted = parseInt(localStorage.getItem('timersCompleted')) || 0;
     tasksCompleted = parseInt(localStorage.getItem('tasksCompleted')) || 0;
+    isDarkMode = localStorage.getItem('isDarkMode') === 'true';
+}
+
+// --- Theme Functions ---
+
+function applyTheme() {
+    if (isDarkMode) {
+        document.body.classList.add('dark-mode');
+        themeToggle.checked = true;
+    } else {
+        document.body.classList.remove('dark-mode');
+        themeToggle.checked = false;
+    }
+}
+
+function toggleTheme() {
+    isDarkMode = !isDarkMode;
+    applyTheme();
+    saveData();
 }
 
 // --- Timer Functions ---
@@ -96,16 +120,17 @@ function renderTasks() {
     }
     tasks.forEach((task, index) => {
         const li = document.createElement('li');
+        li.dataset.index = index;
         li.innerHTML = `
             <span>${task.text}</span>
             <div class="task-buttons">
-                <button onclick="toggleComplete(${index})" title="Mark as complete">
+                <button class="complete-btn" title="Mark as complete">
                     <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
                 </button>
-                <button onclick="editTask(${index})" title="Edit task">
+                <button class="edit-btn" title="Edit task">
                     <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
                 </button>
-                <button onclick="deleteTask(${index})" title="Delete task">
+                <button class="delete-btn" title="Delete task">
                     <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
                 </button>
             </div>
@@ -191,9 +216,29 @@ taskInput.addEventListener('keypress', (e) => {
         addTask();
     }
 });
+themeToggle.addEventListener('change', toggleTheme);
+
+taskList.addEventListener('click', (e) => {
+    const button = e.target.closest('button');
+    if (!button) return;
+
+    const li = e.target.closest('li');
+    if (!li) return;
+
+    const index = parseInt(li.dataset.index, 10);
+
+    if (button.classList.contains('complete-btn')) {
+        toggleComplete(index);
+    } else if (button.classList.contains('edit-btn')) {
+        editTask(index);
+    } else if (button.classList.contains('delete-btn')) {
+        deleteTask(index);
+    }
+});
 
 // --- Initial Load ---
 loadData();
+applyTheme();
 updateTimerDisplay();
 updateTimerBackground();
 renderTasks();
