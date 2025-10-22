@@ -21,6 +21,9 @@ const resetStatsBtn = document.getElementById('reset-stats-btn');
 // Theme Elements
 const themeToggle = document.getElementById('theme-toggle');
 
+// Language Elements
+const langToggle = document.getElementById('lang-toggle');
+
 // Timer Variables
 let totalTime = timeInput.value * 60;
 let timeLeft = totalTime;
@@ -31,6 +34,7 @@ let tasks = [];
 let timersCompleted = 0;
 let tasksCompleted = 0;
 let isDarkMode = false;
+let currentLang = 'en';
 
 // --- Persistence Functions ---
 
@@ -40,6 +44,7 @@ function saveData() {
     localStorage.setItem('timersCompleted', timersCompleted);
     localStorage.setItem('tasksCompleted', tasksCompleted);
     localStorage.setItem('isDarkMode', isDarkMode);
+    localStorage.setItem('currentLang', currentLang);
 }
 
 function loadData() {
@@ -50,6 +55,7 @@ function loadData() {
     timersCompleted = parseInt(localStorage.getItem('timersCompleted')) || 0;
     tasksCompleted = parseInt(localStorage.getItem('tasksCompleted')) || 0;
     isDarkMode = localStorage.getItem('isDarkMode') === 'true';
+    currentLang = localStorage.getItem('currentLang') || 'en';
 }
 
 // --- Theme Functions ---
@@ -67,6 +73,42 @@ function applyTheme() {
 function toggleTheme() {
     isDarkMode = !isDarkMode;
     applyTheme();
+    saveData();
+}
+
+// --- Language Functions ---
+
+function getTranslation(key) {
+    if (translations[key] && translations[key][currentLang]) {
+        return translations[key][currentLang];
+    }
+    // Fallback to English if translation is missing
+    return translations[key]['en'];
+}
+
+function setLanguage() {
+    document.title = getTranslation("Todo Timer");
+    document.querySelector('.title').textContent = getTranslation("TIMER");
+    document.querySelector('.timer-settings span').textContent = getTranslation("minutes");
+    document.querySelector('.task-container .section-header h2').textContent = getTranslation("My Tasks");
+    document.getElementById('clear-tasks-btn').textContent = getTranslation("Clear All Tasks");
+    document.getElementById('task-input').placeholder = getTranslation("Add a new task...");
+    document.getElementById('add-task-btn').textContent = getTranslation("Add");
+    document.querySelector('.stats-container .section-header h2').textContent = getTranslation("Statistics");
+    document.getElementById('reset-stats-btn').textContent = getTranslation("Reset Statistics");
+
+    const timersCompletedText = document.querySelector('.stats-container p:nth-child(2)');
+    timersCompletedText.childNodes[0].nodeValue = getTranslation("Timers Completed:") + ' ';
+
+    const tasksCompletedText = document.querySelector('.stats-container p:nth-child(3)');
+    tasksCompletedText.childNodes[0].nodeValue = getTranslation("Tasks Completed:") + ' ';
+
+    renderTasks();
+}
+
+function toggleLanguage() {
+    currentLang = currentLang === 'en' ? 'es' : 'en';
+    setLanguage();
     saveData();
 }
 
@@ -93,7 +135,7 @@ function startTimer() {
             timersCompleted++;
             updateStats();
             saveData();
-            alert('Time is up!');
+            alert(getTranslation('Time is up!'));
         }
     }, 1000);
 }
@@ -134,7 +176,7 @@ function renderTasks() {
     sortTasks();
     taskList.innerHTML = '';
     if (tasks.length === 0) {
-        taskList.innerHTML = '<p class="empty-state">No tasks yet. Add one to get started!</p>';
+        taskList.innerHTML = `<p class="empty-state">${getTranslation('No tasks yet. Add one to get started!')}</p>`;
         return;
     }
     tasks.forEach((task, index) => {
@@ -143,13 +185,13 @@ function renderTasks() {
         li.innerHTML = `
             <span>${task.text}</span>
             <div class="task-buttons">
-                <button class="complete-btn" title="Mark as complete">
+                <button class="complete-btn" title="${getTranslation('Mark as complete')}">
                     <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
                 </button>
-                <button class="edit-btn" title="Edit task">
+                <button class="edit-btn" title="${getTranslation('Edit task')}">
                     <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
                 </button>
-                <button class="delete-btn" title="Delete task">
+                <button class="delete-btn" title="${getTranslation('Delete task')}">
                     <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
                 </button>
             </div>
@@ -171,6 +213,16 @@ function addTask() {
     }
 }
 
+function clearTasks() {
+    if (confirm(getTranslation('Are you sure you want to clear all tasks? This cannot be undone.'))) {
+        tasks = [];
+        tasksCompleted = 0;
+        updateStats();
+        saveData();
+        renderTasks();
+    }
+}
+
 function toggleComplete(index) {
     tasks[index].completed = !tasks[index].completed;
     if (tasks[index].completed) {
@@ -187,7 +239,7 @@ function toggleComplete(index) {
 }
 
 function editTask(index) {
-    const newText = prompt('Edit task:', tasks[index].text);
+    const newText = prompt(getTranslation('Edit task:'), tasks[index].text);
     if (newText !== null && newText.trim()) {
         tasks[index].text = newText.trim();
         saveData();
@@ -206,7 +258,7 @@ function clearTasks() {
 }
 
 function deleteTask(index) {
-    if (confirm('Are you sure you want to delete this task?')) {
+    if (confirm(getTranslation('Are you sure you want to delete this task?'))) {
         if (tasks[index].completed) {
             tasksCompleted--;
         }
@@ -225,7 +277,7 @@ function updateStats() {
 }
 
 function resetStats() {
-    if (confirm('Are you sure you want to reset all statistics? This cannot be undone.')) {
+    if (confirm(getTranslation('Are you sure you want to reset all statistics? This cannot be undone.'))) {
         timersCompleted = 0;
         tasksCompleted = 0;
         // Also reset completed status of all tasks
@@ -261,6 +313,7 @@ taskInput.addEventListener('keypress', (e) => {
     }
 });
 themeToggle.addEventListener('change', toggleTheme);
+langToggle.addEventListener('click', toggleLanguage);
 
 clearTasksBtn.addEventListener('click', clearTasks);
 resetStatsBtn.addEventListener('click', resetStats);
@@ -286,7 +339,7 @@ taskList.addEventListener('click', (e) => {
 // --- Initial Load ---
 loadData();
 applyTheme();
+setLanguage();
 updateTimerDisplay();
 updateTimerBackground();
-renderTasks();
 updateStats();
