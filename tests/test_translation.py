@@ -10,7 +10,7 @@ def test_language_toggle(browser):
     page.goto(f'file://{file_path}')
 
     # Click the language toggle button
-    page.click('#lang-toggle')
+    page.click('label[for="lang-toggle"]')
     page.wait_for_timeout(500)  # Wait for language change
 
     # Assert that all static text elements are translated
@@ -21,7 +21,7 @@ def test_language_toggle(browser):
     expect(page.locator('[data-translate-key="Add a new task..."]')).to_have_attribute("placeholder", "Añadir una nueva tarea...")
     expect(page.locator('[data-translate-key="Add"]')).to_have_text("Añadir")
     expect(page.locator('[data-translate-key="Statistics"]')).to_have_text("Estadísticas")
-    expect(page.locator('[data-translate-key="Reset Statistics"]')).to_have_text("Restablecer Estadísticas")
+    expect(page.locator('[data-translate-key="Reset Statistics"]')).to_have_text("Borrar Estadísticas")
     expect(page.locator('[data-translate-key="Timers Completed:"]')).to_contain_text("Temporizadores Completados:")
     expect(page.locator('[data-translate-key="Tasks Completed:"]')).to_contain_text("Tareas Completadas:")
     expect(page.locator('[data-translate-key="Made with ♥️ by Sergio in Santiago 🇨🇱"]')).to_have_text("Hecho con ♥️ por Sergio en Santiago 🇨🇱")
@@ -40,7 +40,7 @@ def test_dynamic_task_translation(browser):
     page.click('#add-task-btn')
 
     # Click the language toggle button
-    page.click('#lang-toggle')
+    page.click('label[for="lang-toggle"]')
     page.wait_for_timeout(500)  # Wait for language change
 
     # Assert that the button titles are translated
@@ -65,7 +65,7 @@ def test_clear_all_tasks_translation(browser):
     page.goto(f'file://{file_path}')
 
     # Click the language toggle button
-    page.click('#lang-toggle')
+    page.click('label[for="lang-toggle"]')
     page.wait_for_timeout(500)  # Wait for language change
 
     # Set up a handler for the confirmation dialog
