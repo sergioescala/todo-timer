@@ -99,7 +99,11 @@ function applyVolume() {
 
 function toggleVolume() {
     isMuted = !isMuted;
+    if (!isMuted) {
+        bipSound.play();
+    }
     applyVolume();
+    saveData();
 // --- Language Functions ---
 
 function getTranslation(key) {
