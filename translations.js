@@ -33,7 +33,7 @@ const translations = {
     },
     "Reset Statistics": {
         "en": "Reset Statistics",
-        "es": "Restablecer Estadísticas"
+        "es": "Borrar Estadísticas"
     },
     "Timers Completed:": {
         "en": "Timers Completed:",

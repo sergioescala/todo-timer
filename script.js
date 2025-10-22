@@ -116,6 +116,8 @@ function getTranslation(key) {
 }
 
 function setLanguage() {
+    document.title = getTranslation('Todo Timer');
+    langToggle.checked = currentLang === 'es';
     document.querySelectorAll('[data-translate-key]').forEach(element => {
         const key = element.getAttribute('data-translate-key');
         if (element.tagName === 'INPUT') {
@@ -128,7 +130,7 @@ function setLanguage() {
 }
 
 function toggleLanguage() {
-    currentLang = currentLang === 'en' ? 'es' : 'en';
+    currentLang = langToggle.checked ? 'es' : 'en';
     setLanguage();
     saveData();
 }
@@ -328,7 +330,7 @@ taskInput.addEventListener('keypress', (e) => {
 });
 themeToggle.addEventListener('change', toggleTheme);
 volumeBtn.addEventListener('click', toggleVolume);
-langToggle.addEventListener('click', toggleLanguage);
+langToggle.addEventListener('change', toggleLanguage);
 
 clearTasksBtn.addEventListener('click', clearTasks);
 resetStatsBtn.addEventListener('click', resetStats);
@@ -359,3 +361,7 @@ setLanguage();
 updateTimerDisplay();
 updateTimerBackground();
 updateStats();
+
+document.getElementById('made-with').addEventListener('click', (e) => {
+    e.target.classList.toggle('hidden');
+});
