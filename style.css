@@ -301,3 +301,10 @@ input:checked + label:before {
         flex-direction: column;
     }
 }
+
+.footer {
+    text-align: center;
+    margin-top: 20px;
+    color: var(--secondary-text-color);
+    font-size: 0.9em;
+}
