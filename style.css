@@ -128,7 +128,7 @@ body {
     align-items: center;
 }
 
-.play-icon, .pause-icon, .reset-btn svg, .volume-btn svg, .volume-on-icon, .volume-off-icon {
+.play-icon, .pause-icon, .reset-btn svg, .volume-btn svg {
     width: 24px;
     height: 24px;
     fill: var(--text-color);
