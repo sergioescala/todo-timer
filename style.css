@@ -212,10 +212,6 @@ body {
     width: fit-content; /* Size to content */
 }
 
-.btn-secondary:hover {
-    background-color: var(--timer-bg-color);
-    color: var(--text-color);
-}
 
 .empty-state {
     text-align: center;
