@@ -39,6 +39,7 @@ let currentLang = 'en';
 // --- Persistence Functions ---
 
 function saveData() {
+    sortTasks();
     localStorage.setItem('tasks', JSON.stringify(tasks));
     localStorage.setItem('timersCompleted', timersCompleted);
     localStorage.setItem('tasksCompleted', tasksCompleted);
@@ -156,7 +157,23 @@ function resetTimer() {
 
 // --- Task Functions ---
 
+function sortTasks() {
+    tasks.sort((a, b) => {
+        if (a.completed && !b.completed) {
+            return 1;
+        }
+        if (!a.completed && b.completed) {
+            return -1;
+        }
+        if (a.completed && b.completed) {
+            return a.text.localeCompare(b.text);
+        }
+        return 0; // Keep relative order of incomplete tasks
+    });
+}
+
 function renderTasks() {
+    sortTasks();
     taskList.innerHTML = '';
     if (tasks.length === 0) {
         taskList.innerHTML = `<p class="empty-state">${getTranslation('No tasks yet. Add one to get started!')}</p>`;
@@ -189,7 +206,7 @@ function renderTasks() {
 function addTask() {
     const text = taskInput.value.trim();
     if (text) {
-        tasks.push({ text, completed: false });
+        tasks.unshift({ text, completed: false });
         taskInput.value = '';
         saveData();
         renderTasks();
@@ -212,6 +229,9 @@ function toggleComplete(index) {
         tasksCompleted++;
     } else {
         tasksCompleted--;
+        // Move to top when task is marked as incomplete
+        const [task] = tasks.splice(index, 1);
+        tasks.unshift(task);
     }
     updateStats();
     saveData();
@@ -222,6 +242,16 @@ function editTask(index) {
     const newText = prompt(getTranslation('Edit task:'), tasks[index].text);
     if (newText !== null && newText.trim()) {
         tasks[index].text = newText.trim();
+        saveData();
+        renderTasks();
+    }
+}
+
+function clearTasks() {
+    if (confirm('Are you sure you want to clear all tasks? This cannot be undone.')) {
+        tasks = [];
+        tasksCompleted = 0;
+        updateStats();
         saveData();
         renderTasks();
     }
