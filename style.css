@@ -199,6 +199,28 @@ body {
     fill: var(--text-color);
 }
 
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.btn-secondary {
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    background-color: transparent;
+    color: var(--secondary-text-color);
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.btn-secondary:hover {
+    background-color: var(--timer-bg-color);
+    color: var(--text-color);
+}
+
 .empty-state {
     text-align: center;
     color: var(--secondary-text-color);

@@ -40,7 +40,10 @@
         </div>
         <div class="task-wrapper">
             <div class="task-container">
-                <h2>My Tasks</h2>
+                <div class="section-header">
+                    <h2>My Tasks</h2>
+                    <button id="clear-tasks-btn" class="btn-secondary">Clear All Tasks</button>
+                </div>
                 <div class="add-task-container">
                     <input type="text" id="task-input" placeholder="Add a new task...">
                     <button id="add-task-btn">Add</button>
@@ -48,7 +51,10 @@
                 <ul id="task-list"></ul>
             </div>
             <div class="stats-container">
-                <h2>Statistics</h2>
+                <div class="section-header">
+                    <h2>Statistics</h2>
+                    <button id="reset-stats-btn" class="btn-secondary">Reset Statistics</button>
+                </div>
                 <p>Timers Completed: <span id="timers-completed">0</span></p>
                 <p>Tasks Completed: <span id="tasks-completed">0</span></p>
             </div>

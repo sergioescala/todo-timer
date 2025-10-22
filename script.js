@@ -11,10 +11,12 @@ const resetBtn = document.querySelector('.reset-btn');
 const taskInput = document.getElementById('task-input');
 const addTaskBtn = document.getElementById('add-task-btn');
 const taskList = document.getElementById('task-list');
+const clearTasksBtn = document.getElementById('clear-tasks-btn');
 
 // Stats Elements
 const timersCompletedSpan = document.getElementById('timers-completed');
 const tasksCompletedSpan = document.getElementById('tasks-completed');
+const resetStatsBtn = document.getElementById('reset-stats-btn');
 
 // Theme Elements
 const themeToggle = document.getElementById('theme-toggle');
@@ -152,6 +154,16 @@ function addTask() {
     }
 }
 
+function clearTasks() {
+    if (confirm('Are you sure you want to clear all tasks? This cannot be undone.')) {
+        tasks = [];
+        tasksCompleted = 0;
+        updateStats();
+        saveData();
+        renderTasks();
+    }
+}
+
 function toggleComplete(index) {
     tasks[index].completed = !tasks[index].completed;
     if (tasks[index].completed) {
@@ -192,6 +204,18 @@ function updateStats() {
     tasksCompletedSpan.textContent = tasksCompleted;
 }
 
+function resetStats() {
+    if (confirm('Are you sure you want to reset all statistics? This cannot be undone.')) {
+        timersCompleted = 0;
+        tasksCompleted = 0;
+        // Also reset completed status of all tasks
+        tasks.forEach(task => task.completed = false);
+        updateStats();
+        saveData();
+        renderTasks();
+    }
+}
+
 
 // --- Event Listeners ---
 
@@ -217,6 +241,9 @@ taskInput.addEventListener('keypress', (e) => {
     }
 });
 themeToggle.addEventListener('change', toggleTheme);
+
+clearTasksBtn.addEventListener('click', clearTasks);
+resetStatsBtn.addEventListener('click', resetStats);
 
 taskList.addEventListener('click', (e) => {
     const button = e.target.closest('button');
