@@ -105,8 +105,8 @@ function toggleVolume() {
     applyVolume();
     saveData();
 }
-
 // --- Language Functions ---
+
 function getTranslation(key) {
     if (translations[key] && translations[key][currentLang]) {
         return translations[key][currentLang];
@@ -119,11 +119,11 @@ function setLanguage() {
     document.title = getTranslation("Todo Timer");
     document.querySelector('.title').textContent = getTranslation("TIMER");
     document.querySelector('.timer-settings span').textContent = getTranslation("minutes");
-    document.querySelector('.task-container .section-header h2').textContent = getTranslation("My Tasks");
+    document.querySelector('.task-container h2').textContent = getTranslation("My Tasks");
     document.getElementById('clear-tasks-btn').textContent = getTranslation("Clear All Tasks");
     document.getElementById('task-input').placeholder = getTranslation("Add a new task...");
     document.getElementById('add-task-btn').textContent = getTranslation("Add");
-    document.querySelector('.stats-container .section-header h2').textContent = getTranslation("Statistics");
+    document.querySelector('.stats-container h2').textContent = getTranslation("Statistics");
     document.getElementById('reset-stats-btn').textContent = getTranslation("Reset Statistics");
 
     const timersCompletedText = document.querySelector('.stats-container p:nth-child(2)');
@@ -274,16 +274,6 @@ function editTask(index) {
     const newText = prompt(getTranslation('Edit task:'), tasks[index].text);
     if (newText !== null && newText.trim()) {
         tasks[index].text = newText.trim();
-        saveData();
-        renderTasks();
-    }
-}
-
-function clearTasks() {
-    if (confirm('Are you sure you want to clear all tasks? This cannot be undone.')) {
-        tasks = [];
-        tasksCompleted = 0;
-        updateStats();
         saveData();
         renderTasks();
     }
