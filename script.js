@@ -104,8 +104,9 @@ function toggleVolume() {
     }
     applyVolume();
     saveData();
-// --- Language Functions ---
+}
 
+// --- Language Functions ---
 function getTranslation(key) {
     if (translations[key] && translations[key][currentLang]) {
         return translations[key][currentLang];
