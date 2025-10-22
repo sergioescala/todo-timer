@@ -208,17 +208,17 @@ body {
 
 .btn-secondary {
     padding: 8px 12px;
-    border: 1px solid var(--border-color);
-    background-color: transparent;
-    color: var(--secondary-text-color);
+    border: none;
+    background-color: var(--primary-color);
+    color: white;
     border-radius: 5px;
     cursor: pointer;
     font-size: 0.9rem;
+    transition: background-color 0.3s;
 }
 
 .btn-secondary:hover {
-    background-color: var(--timer-bg-color);
-    color: var(--text-color);
+    background-color: #c02431; /* Darker red for hover */
 }
 
 .empty-state {
