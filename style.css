@@ -202,8 +202,8 @@ body {
 .btn-secondary {
     padding: 8px 12px;
     border: 1px solid var(--border-color);
-    background-color: transparent;
-    color: var(--secondary-text-color);
+    background-color: #28a745;
+    color: white;
     border-radius: 5px;
     cursor: pointer;
     font-size: 0.9rem;
