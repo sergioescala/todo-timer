@@ -154,16 +154,6 @@ function addTask() {
     }
 }
 
-function clearTasks() {
-    if (confirm('Are you sure you want to clear all tasks? This cannot be undone.')) {
-        tasks = [];
-        tasksCompleted = 0;
-        updateStats();
-        saveData();
-        renderTasks();
-    }
-}
-
 function toggleComplete(index) {
     tasks[index].completed = !tasks[index].completed;
     if (tasks[index].completed) {
@@ -180,6 +170,16 @@ function editTask(index) {
     const newText = prompt('Edit task:', tasks[index].text);
     if (newText !== null && newText.trim()) {
         tasks[index].text = newText.trim();
+        saveData();
+        renderTasks();
+    }
+}
+
+function clearTasks() {
+    if (confirm('Are you sure you want to clear all tasks? This cannot be undone.')) {
+        tasks = [];
+        tasksCompleted = 0;
+        updateStats();
         saveData();
         renderTasks();
     }
