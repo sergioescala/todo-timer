@@ -117,16 +117,12 @@ function resetTimer() {
 
 function sortTasks() {
     tasks.sort((a, b) => {
-        if (a.completed && !b.completed) {
-            return 1;
-        }
-        if (!a.completed && b.completed) {
-            return -1;
-        }
+        if (a.completed && !b.completed) return 1;
+        if (!a.completed && b.completed) return -1;
         if (a.completed && b.completed) {
             return a.text.localeCompare(b.text);
         }
-        return 0; // Keep relative order of incomplete tasks
+        return 0;
     });
 }
 
@@ -137,9 +133,9 @@ function renderTasks() {
         taskList.innerHTML = '<p class="empty-state">No tasks yet. Add one to get started!</p>';
         return;
     }
-    tasks.forEach((task, index) => {
+    tasks.forEach(task => {
         const li = document.createElement('li');
-        li.dataset.index = index;
+        li.dataset.id = task.id;
         li.innerHTML = `
             <span>${task.text}</span>
             <div class="task-buttons">
@@ -164,7 +160,7 @@ function renderTasks() {
 function addTask() {
     const text = taskInput.value.trim();
     if (text) {
-        tasks.unshift({ text, completed: false });
+        tasks.unshift({ id: Date.now().toString(), text, completed: false });
         taskInput.value = '';
         saveData();
         renderTasks();
@@ -181,36 +177,42 @@ function clearTasks() {
     }
 }
 
-function toggleComplete(index) {
-    tasks[index].completed = !tasks[index].completed;
-    if (tasks[index].completed) {
-        tasksCompleted++;
-    } else {
-        tasksCompleted--;
-        // Move to top when task is marked as incomplete
-        const [task] = tasks.splice(index, 1);
-        tasks.unshift(task);
-    }
-    updateStats();
-    saveData();
-    renderTasks();
-}
-
-function editTask(index) {
-    const newText = prompt('Edit task:', tasks[index].text);
-    if (newText !== null && newText.trim()) {
-        tasks[index].text = newText.trim();
+function toggleComplete(id) {
+    const taskIndex = tasks.findIndex(task => task.id === id);
+    if (taskIndex > -1) {
+        tasks[taskIndex].completed = !tasks[taskIndex].completed;
+        if (tasks[taskIndex].completed) {
+            tasksCompleted++;
+        } else {
+            tasksCompleted--;
+            const [task] = tasks.splice(taskIndex, 1);
+            tasks.unshift(task);
+        }
+        updateStats();
         saveData();
         renderTasks();
     }
 }
 
-function deleteTask(index) {
-    if (confirm('Are you sure you want to delete this task?')) {
-        if (tasks[index].completed) {
+function editTask(id) {
+    const task = tasks.find(task => task.id === id);
+    if (task) {
+        const newText = prompt('Edit task:', task.text);
+        if (newText !== null && newText.trim()) {
+            task.text = newText.trim();
+            saveData();
+            renderTasks();
+        }
+    }
+}
+
+function deleteTask(id) {
+    const taskIndex = tasks.findIndex(task => task.id === id);
+    if (taskIndex > -1 && confirm('Are you sure you want to delete this task?')) {
+        if (tasks[taskIndex].completed) {
             tasksCompleted--;
         }
-        tasks.splice(index, 1);
+        tasks.splice(taskIndex, 1);
         updateStats();
         saveData();
         renderTasks();
@@ -272,14 +274,14 @@ taskList.addEventListener('click', (e) => {
     const li = e.target.closest('li');
     if (!li) return;
 
-    const index = parseInt(li.dataset.index, 10);
+    const id = li.dataset.id;
 
     if (button.classList.contains('complete-btn')) {
-        toggleComplete(index);
+        toggleComplete(id);
     } else if (button.classList.contains('edit-btn')) {
-        editTask(index);
+        editTask(id);
     } else if (button.classList.contains('delete-btn')) {
-        deleteTask(index);
+        deleteTask(id);
     }
 });
 
