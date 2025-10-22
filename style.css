@@ -199,11 +199,11 @@ body {
     fill: var(--text-color);
 }
 
-.btn-secondary {
+.btn-secondary, .btn-secondary:hover, .btn-secondary:active, .btn-secondary:focus {
     padding: 8px 12px;
     border: 1px solid var(--border-color);
-    background-color: red;
-    color: white;
+    background-color: red !important;
+    color: white !important;
     border-radius: 5px;
     cursor: pointer;
     font-size: 0.9rem;
