@@ -24,6 +24,7 @@ def test_language_toggle(browser):
     expect(page.locator('[data-translate-key="Reset Statistics"]')).to_have_text("Restablecer Estadísticas")
     expect(page.locator('[data-translate-key="Timers Completed:"]')).to_contain_text("Temporizadores Completados:")
     expect(page.locator('[data-translate-key="Tasks Completed:"]')).to_contain_text("Tareas Completadas:")
+    expect(page.locator('[data-translate-key="Made with ♥️ by Sergio in Santiago 🇨🇱"]')).to_have_text("Hecho con ♥️ por Sergio en Santiago 🇨🇱")
 
     page.close()
 

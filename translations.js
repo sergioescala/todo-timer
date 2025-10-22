@@ -78,5 +78,9 @@ const translations = {
     "Delete task": {
         "en": "Delete task",
         "es": "Borrar tarea"
+    },
+    "Made with ♥️ by Sergio in Santiago 🇨🇱": {
+        "en": "Made with ♥️ by Sergio in Santiago 🇨🇱",
+        "es": "Hecho con ♥️ por Sergio en Santiago 🇨🇱"
     }
 };
