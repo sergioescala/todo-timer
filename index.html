@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todo Timer</title>
+    <title data-translate-key="Todo Timer">Todo Timer</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,7 +11,7 @@
         <div class="timer-wrapper">
             <div class="timer-container">
                 <div class="header">
-                    <div class="title">TIMER</div>
+                    <div class="title" data-translate-key="TIMER">TIMER</div>
                     <button id="lang-toggle">EN/ES</button>
                     <div class="theme-switcher">
                         <input type="checkbox" id="theme-toggle">
@@ -23,7 +23,7 @@
                 </div>
                 <div class="timer-settings">
                     <input type="number" id="time-input" value="25" min="1">
-                    <span>minutes</span>
+                    <span data-translate-key="minutes">minutes</span>
                 </div>
                 <div class="timer">
                     <div class="timer-display">25:00</div>
@@ -45,19 +45,19 @@
         </div>
         <div class="task-wrapper">
             <div class="task-container">
-                <h2>My Tasks</h2>
-                <button id="clear-tasks-btn" class="btn-secondary">Clear All Tasks</button>
+                <h2 data-translate-key="My Tasks">My Tasks</h2>
+                <button id="clear-tasks-btn" class="btn-secondary" data-translate-key="Clear All Tasks">Clear All Tasks</button>
                 <div class="add-task-container">
-                    <input type="text" id="task-input" placeholder="Add a new task...">
-                    <button id="add-task-btn">Add</button>
+                    <input type="text" id="task-input" placeholder="Add a new task..." data-translate-key="Add a new task...">
+                    <button id="add-task-btn" data-translate-key="Add">Add</button>
                 </div>
                 <ul id="task-list"></ul>
             </div>
             <div class="stats-container">
-                <h2>Statistics</h2>
-                <button id="reset-stats-btn" class="btn-secondary">Reset Statistics</button>
-                <p>Timers Completed: <span id="timers-completed">0</span></p>
-                <p>Tasks Completed: <span id="tasks-completed">0</span></p>
+                <h2 data-translate-key="Statistics">Statistics</h2>
+                <button id="reset-stats-btn" class="btn-secondary" data-translate-key="Reset Statistics">Reset Statistics</button>
+                <p data-translate-key="Timers Completed:">Timers Completed: <span id="timers-completed">0</span></p>
+                <p data-translate-key="Tasks Completed:">Tasks Completed: <span id="tasks-completed">0</span></p>
             </div>
         </div>
     </div>
