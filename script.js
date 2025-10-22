@@ -6,6 +6,9 @@ const pauseIcon = document.querySelector('.pause-icon');
 const timer = document.querySelector('.timer');
 const timeInput = document.getElementById('time-input');
 const resetBtn = document.querySelector('.reset-btn');
+const volumeBtn = document.querySelector('.volume-btn');
+const volumeOnIcon = document.querySelector('.volume-on-icon');
+const volumeOffIcon = document.querySelector('.volume-off-icon');
 
 // Task Elements
 const taskInput = document.getElementById('task-input');
@@ -31,6 +34,10 @@ let tasks = [];
 let timersCompleted = 0;
 let tasksCompleted = 0;
 let isDarkMode = false;
+let isMuted = false;
+
+// Audio
+const bipSound = new Audio('assets/bip.wav');
 
 // --- Persistence Functions ---
 
@@ -39,6 +46,7 @@ function saveData() {
     localStorage.setItem('timersCompleted', timersCompleted);
     localStorage.setItem('tasksCompleted', tasksCompleted);
     localStorage.setItem('isDarkMode', isDarkMode);
+    localStorage.setItem('isMuted', isMuted);
 }
 
 function loadData() {
@@ -49,6 +57,7 @@ function loadData() {
     timersCompleted = parseInt(localStorage.getItem('timersCompleted')) || 0;
     tasksCompleted = parseInt(localStorage.getItem('tasksCompleted')) || 0;
     isDarkMode = localStorage.getItem('isDarkMode') === 'true';
+    isMuted = localStorage.getItem('isMuted') === 'true';
 }
 
 // --- Theme Functions ---
@@ -66,6 +75,24 @@ function applyTheme() {
 function toggleTheme() {
     isDarkMode = !isDarkMode;
     applyTheme();
+    saveData();
+}
+
+// --- Volume Functions ---
+
+function applyVolume() {
+    if (isMuted) {
+        volumeOnIcon.style.display = 'none';
+        volumeOffIcon.style.display = 'block';
+    } else {
+        volumeOnIcon.style.display = 'block';
+        volumeOffIcon.style.display = 'none';
+    }
+}
+
+function toggleVolume() {
+    isMuted = !isMuted;
+    applyVolume();
     saveData();
 }
 
@@ -92,6 +119,9 @@ function startTimer() {
             timersCompleted++;
             updateStats();
             saveData();
+            if (!isMuted) {
+                bipSound.play();
+            }
             alert('Time is up!');
         }
     }, 1000);
@@ -241,6 +271,7 @@ taskInput.addEventListener('keypress', (e) => {
     }
 });
 themeToggle.addEventListener('change', toggleTheme);
+volumeBtn.addEventListener('click', toggleVolume);
 
 clearTasksBtn.addEventListener('click', clearTasks);
 resetStatsBtn.addEventListener('click', resetStats);
@@ -266,6 +297,7 @@ taskList.addEventListener('click', (e) => {
 // --- Initial Load ---
 loadData();
 applyTheme();
+applyVolume();
 updateTimerDisplay();
 updateTimerBackground();
 renderTasks();
