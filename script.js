@@ -112,7 +112,7 @@ function getTranslation(key) {
         return translations[key][currentLang];
     }
     // Fallback to English if translation is missing
-    return translations[key]['en'];
+    return translations[key] ? translations[key]['en'] : key;
 }
 
 function setLanguage() {
