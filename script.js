@@ -120,16 +120,7 @@ function setLanguage() {
         const key = element.getAttribute('data-translate-key');
         if (element.tagName === 'INPUT') {
             element.placeholder = getTranslation(key);
-        } else if (element.tagName === 'P') {
-            const span = element.querySelector('span');
-            element.childNodes[0].nodeValue = getTranslation(key) + ' ';
-            if(span) {
-                element.appendChild(span);
-            }
-        } else if (element.tagName === 'TITLE') {
-            document.title = getTranslation(key);
-        }
-        else {
+        } else {
             element.textContent = getTranslation(key);
         }
     });

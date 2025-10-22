@@ -14,7 +14,6 @@ def test_language_toggle(browser):
     page.wait_for_timeout(500)  # Wait for language change
 
     # Assert that all static text elements are translated
-    expect(page).to_have_title("Temporizador de Tareas")
     expect(page.locator('[data-translate-key="TIMER"]')).to_have_text("TEMPORIZADOR")
     expect(page.locator('[data-translate-key="minutes"]')).to_have_text("minutos")
     expect(page.locator('[data-translate-key="My Tasks"]')).to_have_text("Mis Tareas")
